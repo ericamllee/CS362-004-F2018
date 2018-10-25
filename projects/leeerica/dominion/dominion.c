@@ -526,7 +526,7 @@ int drawCard(int player, struct gameState *state)
 { int count;
   int deckCounter;
   if (state->deckCount[player] <= 0){//Deck is empty
-    
+
     //Step 1 Shuffle the discard pile back into a deck
     int i;
     //Move discard to deck
@@ -1338,7 +1338,7 @@ int updateCoins(int player, struct gameState *state, int bonus)
   {
     state->coins += 3;
   } 
-    } 
+    }
 
   //add bonus
   state->coins += bonus;
