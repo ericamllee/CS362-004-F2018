@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <assert.h>
 #include "rngs.h"
+#include <math.h>
+#include <stdlib.h>
 
 #define DEBUG 0
 #define NOISY_TEST 1
@@ -45,23 +47,23 @@ int main () {
 
   printf ("ALL TESTS OK\n");
 
-  exit(0);
+//  exit(0);
 
   printf ("SIMPLE FIXED TESTS.\n");
   for (p = 0; p < 2; p++) {
     for (deckCount = 0; deckCount < 5; deckCount++) {
       for (discardCount = 0; discardCount < 5; discardCount++) {
-	for (handCount = 0; handCount < 5; handCount++) {
-	  memset(&G, 23, sizeof(struct gameState)); 
-	  r = initializeGame(2, k, 1, &G);
-	  G.deckCount[p] = deckCount;
-	  memset(G.deck[p], 0, sizeof(int) * deckCount);
-	  G.discardCount[p] = discardCount;
-	  memset(G.discard[p], 0, sizeof(int) * discardCount);
-	  G.handCount[p] = handCount;
-	  memset(G.hand[p], 0, sizeof(int) * handCount);
-	  checkDrawCard(p, &G);
-	}
+        for (handCount = 0; handCount < 5; handCount++) {
+          memset(&G, 23, sizeof(struct gameState));
+          r = initializeGame(2, k, 1, &G);
+          G.deckCount[p] = deckCount;
+          memset(G.deck[p], 0, sizeof(int) * deckCount);
+          G.discardCount[p] = discardCount;
+          memset(G.discard[p], 0, sizeof(int) * discardCount);
+          G.handCount[p] = handCount;
+          memset(G.hand[p], 0, sizeof(int) * handCount);
+          checkDrawCard(p, &G);
+        }
       }
     }
   }

@@ -660,9 +660,10 @@ int playAdventurer(struct gameState *state, int currentPlayer, int temphand[]) {
   int drawntreasure = 0; 
 
   while(drawntreasure<2){
-    if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
-      shuffle(currentPlayer, state);
-    }
+//    if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
+//      shuffle(currentPlayer, state);
+//      printf("after shuffling in adventurer: deck: %d, discard: %d, hand: %d\n", state->deckCount[currentPlayer], state->discardCount[currentPlayer], state->handCount[currentPlayer]);
+//    }
     drawCard(currentPlayer, state);
     int cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
     if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
@@ -674,6 +675,7 @@ int playAdventurer(struct gameState *state, int currentPlayer, int temphand[]) {
       z++;
     }
   }
+
   while(z-1>=0){
     state->discard[currentPlayer][state->discardCount[currentPlayer]++]=temphand[z-1]; // discard all cards in play that have been drawn
     z=z-1;
@@ -785,8 +787,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   if (nextPlayer > (state->numPlayers - 1)){
     nextPlayer = 0;
   }
-  
-  
+
   //uses switch to select card and perform actions
   switch( card ) 
     {
@@ -810,7 +811,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   if (supplyCount(choice1, state) <= 0){
     if (DEBUG)
       printf("None of that card left, sorry!\n");
-
     if (DEBUG){
       printf("Cards Left: %d\n", supplyCount(choice1, state));
     }
