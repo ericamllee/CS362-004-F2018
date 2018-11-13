@@ -97,7 +97,7 @@ unittestresults:
 	echo "cardtest4.c:" >> unittestresults.out
 	make cardtest4
 	./cardtest4 >> unittestresults.out
-	gcov -b -f -filter-print-funcs='playMinion' dominion.c >> unittestresults.out
+	gcov -f dominion.c >> unittestresults.out
 
 all: playdom player 
 
