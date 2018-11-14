@@ -106,7 +106,6 @@ int checkAdventurer(int choice1, int choice2, int choice3, struct gameState *G, 
           testAssert(testG.discardCount[player], G->deckCount[player] + G->discardCount[player] - addedCards, "discard count should hold original deck + discard, minus any treasure cards");
         } else {
 //          This is the case in which the deck needs to be shuffled and there are more than 2 treasure cards.
-          cardsPlayedGreaterThan = G->deckCount[player];
           int originalDeck = G->deckCount[player];
           int originalDiscard = G->discardCount[player];
           int numToFindTwoCardsCalculatedFromDiscard = testG.discardCount[player] - originalDeck - addedCards;
