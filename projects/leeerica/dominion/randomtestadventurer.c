@@ -51,13 +51,10 @@ int findNumCardsToReachTwoTreasureCards(struct gameState *G) {
 }
 
 int checkAdventurer(int choice1, int choice2, int choice3, struct gameState *G, int handPos, int* bonus) {
-  printf("starting test\n");
   const int numCardsToReachTwoTreasureCards = findNumCardsToReachTwoTreasureCards(G);
   struct gameState testG;
   memcpy(&testG, G, sizeof(struct gameState));
-  printf("before card effect\n");
   int r = cardEffect(adventurer, choice1, choice2, choice3, &testG, handPos, bonus);
-  printf("after card effect\n");
   const int treasureCards = countTreasureCards(G);
   int addedCards = 2;
   if (treasureCards < 2) {
@@ -126,7 +123,6 @@ int checkAdventurer(int choice1, int choice2, int choice3, struct gameState *G, 
       testAssert(testG.discardCount[player] >= 0, 1, "no negative discard count");
       testAssert(testG.deckCount[player] >= 0, 1, "no negative deck count");
     }
-    printf("ending test\n");
   }
   return 0;
 }
