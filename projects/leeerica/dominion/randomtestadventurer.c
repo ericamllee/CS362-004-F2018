@@ -10,18 +10,7 @@
 
 int testAssert(int actual, int expected, char* message) {
   if (actual != expected) {
-//    printf("TEST SUCCEEDED: testing %s. actual: %d. expected: %d.\n", message, actual, expected);
-//  } else {
     printf("TEST FAILED: testing %s. actual: %d. expected: %d.\n", message, actual, expected);
-  }
-  return 0;
-}
-
-int testGreaterThan(int actual, int num, char* message) {
-  if (actual > num) {
-//    printf("TEST SUCCEEDED: testing %s. actual: %d. expected: %d.\n", message, actual, expected);
-//  } else {
-    printf("TEST FAILED: testing %s. expected %d to be greater than %d.\n", message, actual, num);
   }
   return 0;
 }
@@ -65,9 +54,6 @@ int checkAdventurer(int choice1, int choice2, int choice3, struct gameState *G, 
   const int numCardsToReachTwoTreasureCards = findNumCardsToReachTwoTreasureCards(G);
   struct gameState testG;
   memcpy(&testG, G, sizeof(struct gameState));
-  if (numCardsToReachTwoTreasureCards == -1) {
-    printf("before sending to Adventurer: original deck: %d, original discard: %d, original hand: %d\n", testG.deckCount[testG.whoseTurn], testG.discardCount[testG.whoseTurn], testG.handCount[testG.whoseTurn]);
-  }
   int r = cardEffect(adventurer, choice1, choice2, choice3, &testG, handPos, bonus);
   const int treasureCards = countTreasureCards(G);
   int addedCards = 2;
@@ -76,6 +62,9 @@ int checkAdventurer(int choice1, int choice2, int choice3, struct gameState *G, 
   }
 
   testAssert(r, 0, "return value");
+  if (r == -1) {
+    return 0;
+  }
   // Check that the supply count of cards is unchanged.
   testAssert(testG.supplyCount[estate], G->supplyCount[estate], "estate unchanged");
   testAssert(testG.supplyCount[duchy], G->supplyCount[duchy], "duchy unchanged");
@@ -101,48 +90,38 @@ int checkAdventurer(int choice1, int choice2, int choice3, struct gameState *G, 
         testAssert(testG.deck[player][card], G->deck[player][card], "other player's deck card is the same");
       }
       testAssert(testG.discardCount[player], G->discardCount[player], "discard count unchanged for other player");
-//      for (int card = 0; card < G->discardCount[player]; card++) {
-//        testAssert(testG.discard[player][card], G->discard[player][card], "other player's discard card is the same");
-//      }
+      for (int card = 0; card < G->discardCount[player]; card++) {
+        testAssert(testG.discard[player][card], G->discard[player][card], "other player's discard card is the same");
+      }
       testAssert(testG.handCount[player], G->handCount[player], "hand count for other player");
-//      for (int card = 0; card < G->handCount[player]; card++) {
-//        testAssert(testG.hand[player][card], G->hand[player][card], "other player's discard card is the same");
-//      }
+      for (int card = 0; card < G->handCount[player]; card++) {
+        testAssert(testG.hand[player][card], G->hand[player][card], "other player's discard card is the same");
+      }
     } else {
       int cardsPlayedGreaterThan;
       if (numCardsToReachTwoTreasureCards == -1) {
         // This is the case in which the deck needed to be shuffled and there are fewer than two treasure cards.
         if (addedCards < 2) {
-          printf("CASE 1 : LESS THAN 2 TREASURE");
           testAssert(testG.deckCount[player], 0, "deck should be empty since there are fewer than 2 treasure cards");
           testAssert(testG.discardCount[player], G->deckCount[player] + G->discardCount[player] - addedCards, "discard count should hold original deck + discard, minus any treasure cards");
         } else {
-          printf("CASE 2 : HAD TO SHUFFLE");
-
 //          This is the case in which the deck needs to be shuffled and there are more than 2 treasure cards.
           cardsPlayedGreaterThan = G->deckCount[player];
           int originalDeck = G->deckCount[player];
           int originalDiscard = G->discardCount[player];
-//          printf("treasure cards: %d, addedCards: %d\n", treasureCards, addedCards);
-//          printf("After shuffling: deck: %d,  discard: %d, hand: %d\n", testG.deckCount[player],
-//                 testG.discardCount[player], testG.handCount[player]);
           int numToFindTwoCardsCalculatedFromDiscard = testG.discardCount[player] - originalDeck - addedCards;
           int numToFindTwoCardsCalculatedFromDeck = originalDiscard - originalDeck;
-//          printf("numberMoved discard: %d, numberMoved deck: %d\n", numToFindTwoCardsCalculatedFromDiscard,
-//                 numToFindTwoCardsCalculatedFromDeck);
           testAssert(numToFindTwoCardsCalculatedFromDeck, numToFindTwoCardsCalculatedFromDiscard,
                      "expect the number of cards moved to be the same");
         }
       } else {
-//        printf("No need to shuffle\n");
         testAssert(testG.deckCount[player], G->deckCount[player] - numCardsToReachTwoTreasureCards, "deck count");
         testAssert(testG.discardCount[player], G->discardCount[player] + numCardsToReachTwoTreasureCards - addedCards, "discard count");
       }
 
       testAssert(testG.coins, G->coins, "coin count");
-//      testAssert(testG.handCount[player], G->handCount[player] + addedCards - 1, "hand count");
-//      testAssert(testG.playedCardCount, G->playedCardCount + 1, "played card count increased by 1");
-//      testAssert(testG.playedCards[testG.playedCardCount - 1], adventurer, "correct card placed in played card pile");
+      testAssert(testG.handCount[player], G->handCount[player] + addedCards - 1, "hand count");
+      testAssert(testG.playedCardCount, G->playedCardCount + 1, "played card count increased by 1");
 
       testAssert(testG.handCount[player] >= 0, 1, "no negative hand count");
       testAssert(testG.discardCount[player] >= 0, 1, "no negative discard count");
@@ -165,7 +144,7 @@ int main () {
   printf ("Testing Adventurer.\n");
   printf ("RANDOM TESTS.\n");
 
-  for (int n = 0; n < 2000; n++) {
+  for (int n = 0; n < 200; n++) {
     for (int i = 0; i < sizeof(struct gameState); i++) {
       ((char*)&G)[i] = floor(Random() * 256);
     }
@@ -173,9 +152,12 @@ int main () {
     int numPlayers = rand() % 3 + 2;
     initializeGame(numPlayers, k, rand(), &G);
     for (int j = 0; j < numPlayers; j++) {
-      G.deckCount[j] = floor(Random() * MAX_DECK);
-      G.discardCount[j] = floor(Random() * (MAX_DECK - G.deckCount[j]));
-      G.handCount[j] = floor(Random() * MAX_HAND);
+      // ensure that all numbers added together are < 500;
+      do {
+        G.deckCount[j] = floor(Random() * (MAX_DECK));
+        G.discardCount[j] = floor(Random() * MAX_DECK);
+        G.handCount[j] = floor(Random() * MAX_HAND);
+      } while (G.deckCount[j] + G.discardCount[j] + G.handCount[j] >= 500);
     }
     G.whoseTurn = rand() % numPlayers;
     int choice1 = rand();

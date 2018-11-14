@@ -37,8 +37,6 @@ long random_at_most(long max) {
 
 int testAssert(int actual, int expected, char* message) {
   if (actual != expected) {
-//    printf("TEST SUCCEEDED: testing %s. actual: %d. expected: %d.\n", message, actual, expected);
-//  } else {
     printf("TEST FAILED: testing %s. actual: %d. expected: %d.\n", message, actual, expected);
   }
   return 0;
@@ -77,13 +75,13 @@ int checkSmithy(int choice1, int choice2, int choice3, struct gameState *G, int 
         testAssert(testG.deck[player][card], G->deck[player][card], "other player's deck card is the same");
       }
       testAssert(testG.discardCount[player], G->discardCount[player], "discard count unchanged for other player");
-//      for (int card = 0; card < G->discardCount[player]; card++) {
-//        testAssert(testG.discard[player][card], G->discard[player][card], "other player's discard card is the same");
-//      }
+      for (int card = 0; card < G->discardCount[player]; card++) {
+        testAssert(testG.discard[player][card], G->discard[player][card], "other player's discard card is the same");
+      }
       testAssert(testG.handCount[player], G->handCount[player], "hand count for other player");
-//      for (int card = 0; card < G->handCount[player]; card++) {
-//        testAssert(testG.hand[player][card], G->hand[player][card], "other player's discard card is the same");
-//      }
+      for (int card = 0; card < G->handCount[player]; card++) {
+        testAssert(testG.hand[player][card], G->hand[player][card], "other player's card in hand is the same");
+      }
     } else {
       int discarded = 1;
       int newCards;
@@ -132,9 +130,12 @@ int main () {
     int numPlayers = rand() % 3 + 2;
     initializeGame(numPlayers, k, rand(), &G);
     for (int j = 0; j < numPlayers; j++) {
-      G.deckCount[j] = floor(Random() * MAX_DECK);
-      G.discardCount[j] = floor(Random() * MAX_DECK);
-      G.handCount[j] = floor(Random() * MAX_HAND);
+      // ensure that all numbers added together are < 500;
+      do {
+        G.deckCount[j] = floor(Random() * (MAX_DECK));
+        G.discardCount[j] = floor(Random() * MAX_DECK);
+        G.handCount[j] = floor(Random() * MAX_HAND);
+      } while (G.deckCount[j] + G.discardCount[j] + G.handCount[j] >= 500);
     }
     G.whoseTurn = rand() % numPlayers;
     int choice1 = rand();

@@ -660,10 +660,9 @@ int playAdventurer(struct gameState *state, int currentPlayer, int temphand[]) {
   int drawntreasure = 0; 
 
   while(drawntreasure<2){
-//    if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
-//      shuffle(currentPlayer, state);
-//      printf("after shuffling in adventurer: deck: %d, discard: %d, hand: %d\n", state->deckCount[currentPlayer], state->discardCount[currentPlayer], state->handCount[currentPlayer]);
-//    }
+    if (state->deckCount[currentPlayer] <1){//if the deck is empty we need to shuffle discard and add to deck
+      shuffle(currentPlayer, state);
+    }
     drawCard(currentPlayer, state);
     int cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
     if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold) {
