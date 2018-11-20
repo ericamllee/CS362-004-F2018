@@ -1442,4 +1442,4 @@ int updateCoins(int player, struct gameState * state, int bonus)
     return 0;
 }
 
-//end of dominion.c
+//end of kindysdominion.c
