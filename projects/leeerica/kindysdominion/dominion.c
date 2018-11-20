@@ -722,7 +722,7 @@ int playAdventurer(int currentPlayer, struct gameState* state, int* temphand)
 
     // changed to continue drawing cards until drawn treasure is 4 rather than 2
     // while (drawntreasure) < 4 vs while (drawntreasure) < 2
-    while (drawntreasure < 4) 
+    while (drawntreasure < 4)
     {
         if (state->deckCount[currentPlayer] < 1) 
         { 
@@ -750,9 +750,8 @@ int playAdventurer(int currentPlayer, struct gameState* state, int* temphand)
 
 int playSmithy(int handPos, int currentPlayer, struct gameState* state)
 {
-	// Meant to be +3 but changed to +4
 	//+3 Cards
-    for (int i = 0; i < 4; i++) 
+    for (int i = 0; i < 3; i++)
     {
         drawCard(currentPlayer, state);
     }
