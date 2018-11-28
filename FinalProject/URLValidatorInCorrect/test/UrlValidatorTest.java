@@ -49,20 +49,16 @@ public class UrlValidatorTest extends TestCase {
       }
    }
 
-   public void testSchemePartition_Succeed()
-   {
+   public void testSchemePartition_Succeed() {
       System.out.println("\nScheme Partition - expect true");
 
-      //You can use this function to implement your First Partition testing
-      UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
       printedAssertTrue("http://www.google.com");
       printedAssertTrue("www.google.com");
       printedAssertTrue("ftp://www.google.com");
       printedAssertTrue("h3t://www.google.com");
    }
 
-   public void testSchemePartition_Fail(){
-		 //You can use this function to implement your Second Partition testing
+   public void testSchemePartition_Fail() {
       System.out.println("\nScheme Partition - expect false");
 
       printedAssertFalse("3ht://www.google.com");
@@ -72,12 +68,9 @@ public class UrlValidatorTest extends TestCase {
    }
    //You need to create more test cases for your Partitions if you need to
 
-   public void testAuthorityPartition_Succeed()
-   {
+   public void testAuthorityPartition_Succeed() {
       System.out.println("\nAuthority Partition - expect true");
 
-      //You can use this function to implement your First Partition testing
-      UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
       printedAssertTrue("http://www.google.com");
       printedAssertTrue("http://go.com");
       printedAssertTrue("http://google.au");
@@ -88,9 +81,6 @@ public class UrlValidatorTest extends TestCase {
    public void testAuthorityPartition_Fail() {
       System.out.println("\nAuthority Partition - expect false");
 
-      //You can use this function to implement your Second Partition testing
-      UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
-
       printedAssertFalse("http://256.256.256.256");
       printedAssertFalse("http://255.com");
       printedAssertFalse("http://1.2.3.4.5");
@@ -98,12 +88,9 @@ public class UrlValidatorTest extends TestCase {
    }
    //You need to create more test cases for your Partitions if you need to
 
-   public void testPartitionWithHTTP()
-   {
+   public void testPartitionWithHTTP() {
       System.out.println("\nHTTP Partition - all URLS have http in them.");
 
-      //You can use this function to implement your First Partition testing
-      UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
       printedAssertTrue("http://www.google.com");
       printedAssertFalse("http:/go.com");
       printedAssertFalse("http:/");
@@ -113,9 +100,6 @@ public class UrlValidatorTest extends TestCase {
    public void testPartitionWithoutHTTP(){
 
       System.out.println("\nHTTP Partition - no URLS have HTTP");
-
-      //You can use this function to implement your Second Partition testing
-      UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
 
       printedAssertTrue("ftp://www.google.com");
       printedAssertTrue("abc.com");
